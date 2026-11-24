@@ -54,6 +54,11 @@ baseline_mse = mean_squared_error(y_test, y_pred_baseline)
 lr_r2 = r2_score(y_test, y_pred_lr)
 lr_mse = mean_squared_error(y_test, y_pred_lr)
 
+print("=== Model Coefficients ===")
+for idx, feat in enumerate(feature_cols):
+    print(f"{feat:20s}: {model.coef_[idx]:.4f}")
+print(f"Intercept           : {model.intercept_:.4f}\n")
+
 print("=== Comparison with Baseline Model ===")
 print(f"Baseline (Predict Mean) R^2 Score on Test: {baseline_r2:.4f}")
 print(f"Baseline (Predict Mean) MSE on Test:     {baseline_mse:.4f}")
