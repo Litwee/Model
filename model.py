@@ -64,3 +64,10 @@ print(f"Baseline (Predict Mean) R^2 Score on Test: {baseline_r2:.4f}")
 print(f"Baseline (Predict Mean) MSE on Test:     {baseline_mse:.4f}")
 print(f"Linear Regression R^2 Score on Test:       {lr_r2:.4f}")
 print(f"Linear Regression MSE on Test:             {lr_mse:.4f}")
+
+def recommend(prediction):
+    """
+    Decision function to recommend a venue.
+    Returns True if the predicted score is 7 or higher, False otherwise.
+    """
+    return prediction >= 7.0
