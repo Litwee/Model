@@ -5,6 +5,8 @@ df = pd.read_csv('data/survey_regression_data.csv')
 
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from sklearn.dummy import DummyRegressor
+from sklearn.metrics import mean_squared_error, r2_score
 
 # Target and updated list of features including match factors and constraints
 target_col = 'overall_rating'
@@ -37,9 +39,23 @@ model.fit(X_train, y_train)
 train_score = model.score(X_train, y_train)
 test_score = model.score(X_test, y_test)
 
-print(f"\nModel trained successfully!")
-for idx, feat in enumerate(feature_cols):
-    print(f"Coefficient for {feat:20s}: {model.coef_[idx]:.4f}")
-print(f"Intercept: {model.intercept_:.4f}")
-print(f"R^2 Score on Train: {train_score:.4f}")
-print(f"R^2 Score on Test: {test_score:.4f}")
+# Define and train a simple baseline model (always predicts the mean of y_train)
+baseline_model = DummyRegressor(strategy='mean')
+baseline_model.fit(X_train, y_train)
+
+# Make predictions
+y_pred_baseline = baseline_model.predict(X_test)
+y_pred_lr = model.predict(X_test)
+
+# Calculate metrics for both
+baseline_r2 = r2_score(y_test, y_pred_baseline)
+baseline_mse = mean_squared_error(y_test, y_pred_baseline)
+
+lr_r2 = r2_score(y_test, y_pred_lr)
+lr_mse = mean_squared_error(y_test, y_pred_lr)
+
+print("=== Comparison with Baseline Model ===")
+print(f"Baseline (Predict Mean) R^2 Score on Test: {baseline_r2:.4f}")
+print(f"Baseline (Predict Mean) MSE on Test:     {baseline_mse:.4f}")
+print(f"Linear Regression R^2 Score on Test:       {lr_r2:.4f}")
+print(f"Linear Regression MSE on Test:             {lr_mse:.4f}")
