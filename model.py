@@ -71,3 +71,23 @@ def recommend(prediction):
     Returns True if the predicted score is 7 or higher, False otherwise.
     """
     return prediction >= 7.0
+
+# Take a single row from the test set (e.g., the very first row)
+single_row = X_test.iloc[[0]]
+
+# Get the actual rating from the target variable for comparison
+actual_rating = y_test.iloc[0]
+
+# Run the model prediction on this single row
+single_pred = model.predict(single_row)[0]
+
+# Make a recommendation decision
+rec_decision = recommend(single_pred)
+
+print("=== Row Feature Values ===")
+display(single_row)
+
+print("\n=== Prediction & Recommendation Decision ===")
+print(f"Actual Rating:       {actual_rating}")
+print(f"Predicted Rating:    {single_pred:.4f}")
+print(f"Recommend Venue?     {rec_decision}")
